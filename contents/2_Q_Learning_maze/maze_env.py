@@ -21,22 +21,21 @@ else:
     import tkinter as tk
 
 
-UNIT = 40   # pixels
-MAZE_H = 4  # grid height
-MAZE_W = 4  # grid width
-
+UNIT = 40   # pixels (Default: 40)
+MAZE_H = 4  # grid height (Default: 4)
+MAZE_W = 4  # grid width (Default: 4)
 
 class Maze(tk.Tk, object):
     def __init__(self):
         super(Maze, self).__init__()
         self.action_space = ['u', 'd', 'l', 'r']
         self.n_actions = len(self.action_space)
-        self.title('maze')
+        self.title('強化学習迷路')
         self.geometry('{0}x{1}'.format(MAZE_H * UNIT, MAZE_H * UNIT))
         self._build_maze()
 
     def _build_maze(self):
-        self.canvas = tk.Canvas(self, bg='white',
+        self.canvas = tk.Canvas(self, bg='orange',
                            height=MAZE_H * UNIT,
                            width=MAZE_W * UNIT)
 
@@ -71,18 +70,19 @@ class Maze(tk.Tk, object):
             oval_center[0] + 15, oval_center[1] + 15,
             fill='yellow')
 
-        # create red rect
+        # create red rect (Default: 15)
         self.rect = self.canvas.create_rectangle(
             origin[0] - 15, origin[1] - 15,
             origin[0] + 15, origin[1] + 15,
             fill='red')
+
 
         # pack all
         self.canvas.pack()
 
     def reset(self):
         self.update()
-        time.sleep(0.5)
+        time.sleep(0.1) # default: 0.3
         self.canvas.delete(self.rect)
         origin = np.array([20, 20])
         self.rect = self.canvas.create_rectangle(
@@ -128,7 +128,7 @@ class Maze(tk.Tk, object):
         return s_, reward, done
 
     def render(self):
-        time.sleep(0.1)
+        time.sleep(0.3)
         self.update()
 
 
